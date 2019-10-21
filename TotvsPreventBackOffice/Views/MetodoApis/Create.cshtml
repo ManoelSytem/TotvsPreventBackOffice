@@ -1,0 +1,69 @@
+﻿@model TotvsPreventBackOffice.ViewModel.MetodoViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>MetodoApi</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Metodo" class="control-label"></label>
+                <input asp-for="Metodo" class="form-control" />
+                <span asp-validation-for="Metodo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Servidor</label>
+                @Html.DropDownListFor(model => model.Servidor, ViewBag.Servidor as SelectList)
+            </div>
+            <div class="form-group">
+                <label class="control-label">Módulo</label>
+                @Html.DropDownListFor(model => model.Modulo, ViewBag.Modulo as SelectList)
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="Create()" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script type="text/javascript">
+
+    function Create() {
+
+        var e = document.getElementById("Servidor");
+        var IdServidor = e.options[e.selectedIndex].value;
+
+        var e = document.getElementById("Modulo");
+        var IdModulo = e.options[e.selectedIndex].value;
+
+        var Metodo = $("#Metodo").val();
+
+                  $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: '/MetodoApis/Create',
+                    data: { idServidor: IdServidor, idModulo: IdModulo, metodo: Metodo}
+                  }).done(function (data) {
+                      if (!data.erro) {
+                          alert(data.sucesso);
+                      } else {
+                     alert(data.msg);
+                 }
+                }
+                  );
+    }
+</script>

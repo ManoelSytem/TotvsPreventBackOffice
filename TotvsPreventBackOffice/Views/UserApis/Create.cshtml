@@ -1,0 +1,41 @@
+﻿@model TotvsPreventBackOffice.ViewModel.AssociacaoApiViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Serviços Disponiveis
+            </th>
+            <th>
+                Utilizando
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.MetodosApi)
+        {
+            <tr>
+                <td>
+                    @item.Metodo
+                </td>
+                <td>
+                    @Html.CheckBox("ObterServico", false, new { @Value = item.ID })
+                </td>
+
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

@@ -1,0 +1,65 @@
+﻿@model TotvsPreventBackOffice.ViewModel.UserModuloPerfilViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Usuário Módulo Perfil </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Usuário</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.Usuario, ViewBag.Usuario as SelectList)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Módulo</label>
+                @Html.DropDownListFor(model => model.modulo, ViewBag.Modulo as SelectList)
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="Create()" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+
+    function Create() {
+
+        var e = document.getElementById("Usuario");
+        var IdUsuario = e.options[e.selectedIndex].value;
+
+        var e = document.getElementById("modulo");
+        var IdModulo = e.options[e.selectedIndex].value;
+
+                  $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    url: '/UserModuloPerfils/Create',
+                    data: { idUser: IdUsuario, idModulo: IdModulo }
+                  }).done(function (data) {
+                      if (!data.erro) {
+                          alert(data.sucesso);
+                      } else {
+                     alert(data.msg);
+                 }
+                }
+                  );
+    }
+</script>
